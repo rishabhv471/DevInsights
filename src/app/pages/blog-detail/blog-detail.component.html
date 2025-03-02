@@ -1,0 +1,321 @@
+<div class="flex flex-col min-h-screen bg-gray-50 dark:bg-gray-900">
+  <app-header></app-header>
+  
+  <main class="flex-grow">
+    <!-- Blog Content -->
+    <div class="blog-container" *ngIf="blogPost$ | async as blogPost">
+      <!-- Media Carousel -->
+      <div class="media-carousel" *ngIf="blogPost.media && blogPost.media.length > 0">
+        <div class="carousel-container">
+          <div class="carousel-track" [style.transform]="'translateX(-' + (currentSlide * 100) + '%)'">
+            <div *ngFor="let media of blogPost.media" class="carousel-item">
+              <ng-container [ngSwitch]="media.type">
+                <!-- Image -->
+                <img *ngSwitchCase="'image'" [src]="media.url" [alt]="blogPost.title" class="carousel-image">
+                <!-- Video -->
+                <div *ngSwitchCase="'video'" class="video-container">
+                  <iframe
+                    *ngIf="media.videoUrl"
+                    [src]="media.videoUrl | safe:'resourceUrl'"
+                    frameborder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowfullscreen
+                    class="video-iframe">
+                  </iframe>
+                  <div *ngIf="!media.videoUrl" class="video-placeholder">
+                    <p>Video URL not available</p>
+                  </div>
+                </div>
+              </ng-container>
+            </div>
+          </div>
+          <!-- Carousel Controls -->
+          <button class="carousel-control prev" (click)="previousSlide(); pauseAutoSlide()" *ngIf="blogPost.media.length > 1">
+            <span class="sr-only">Previous</span>
+            <i class="fas fa-chevron-left"></i>
+          </button>
+          <button class="carousel-control next" (click)="nextSlide(); pauseAutoSlide()" *ngIf="blogPost.media.length > 1">
+            <span class="sr-only">Next</span>
+            <i class="fas fa-chevron-right"></i>
+          </button>
+          <!-- Carousel Indicators -->
+          <div class="carousel-indicators" *ngIf="blogPost.media.length > 1">
+            <button
+              *ngFor="let media of blogPost.media; let i = index"
+              [class.active]="currentSlide === i"
+              (click)="goToSlide(i); pauseAutoSlide()"
+              class="indicator-dot"
+              [attr.aria-label]="'Go to slide ' + (i + 1)">
+            </button>
+          </div>
+          <!-- Play/Pause Button -->
+          <button 
+            class="carousel-control play-pause" 
+            (click)="toggleAutoSlide()"
+            *ngIf="blogPost.media.length > 1"
+            [attr.aria-label]="isAutoPlaying ? 'Pause slideshow' : 'Play slideshow'">
+            <i [class]="isAutoPlaying ? 'fas fa-pause' : 'fas fa-play'"></i>
+          </button>
+        </div>
+      </div>
+
+      <app-blog-content [content]="blogPost.content"></app-blog-content>
+    </div>
+
+    <!-- Loading State -->
+    <div class="loading-container" *ngIf="loading">
+      <div class="loading-spinner"></div>
+      <p>Generating your blog post...</p>
+    </div>
+
+    <!-- Error State -->
+    <div class="error-container" *ngIf="error">
+      <p>{{ error }}</p>
+      <button (click)="retryGeneration()">Try Again</button>
+    </div>
+  </main>
+
+  <app-footer></app-footer>
+</div>
+
+<style>
+  .hidden.md\:flex.items-center.space-x-8 {
+    margin-left: 134px;
+    margin-right: 134px;
+  }
+
+  .blog-container {
+    min-height: 100vh;
+    background-color: #ffffff;
+  }
+
+  .media-carousel {
+    max-width: 800px;
+    margin: 2rem auto;
+    padding: 0 1rem;
+  }
+
+  .carousel-container {
+    position: relative;
+    overflow: hidden;
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    background-color: #f3f4f6;
+    aspect-ratio: 16 / 9;
+  }
+
+  .carousel-track {
+    display: flex;
+    transition: transform 0.5s ease-in-out;
+    height: 100%;
+  }
+
+  .carousel-item {
+    flex: 0 0 100%;
+    min-width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .carousel-image {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    background-color: #f3f4f6;
+  }
+
+  .video-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background-color: #1a1a1a;
+  }
+
+  .video-iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  .video-placeholder {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #1a1a1a;
+    color: #ffffff;
+  }
+
+  .carousel-control {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(255, 255, 255, 0.8);
+    border: none;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+    color: #1a1a1a;
+    z-index: 10;
+  }
+
+  .carousel-control:hover {
+    background-color: rgba(255, 255, 255, 0.9);
+    transform: translateY(-50%) scale(1.1);
+  }
+
+  .carousel-control.prev {
+    left: 1rem;
+  }
+
+  .carousel-control.next {
+    right: 1rem;
+  }
+
+  .carousel-control.play-pause {
+    bottom: 1rem;
+    top: auto;
+    right: 1rem;
+    transform: none;
+  }
+
+  .carousel-control.play-pause:hover {
+    transform: scale(1.1);
+  }
+
+  .carousel-indicators {
+    position: absolute;
+    bottom: 1rem;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 0.5rem;
+    z-index: 10;
+  }
+
+  .indicator-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.5);
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+  }
+
+  .indicator-dot:hover {
+    background-color: rgba(255, 255, 255, 0.8);
+  }
+
+  .indicator-dot.active {
+    background-color: white;
+    transform: scale(1.2);
+  }
+
+  .loading-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 50vh;
+    gap: 1rem;
+  }
+
+  .loading-spinner {
+    width: 40px;
+    height: 40px;
+    border: 4px solid #f3f3f3;
+    border-top: 4px solid #3b82f6;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+  }
+
+  .error-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 50vh;
+    gap: 1rem;
+    color: #ef4444;
+  }
+
+  .error-container button {
+    padding: 0.5rem 1rem;
+    background-color: #3b82f6;
+    color: white;
+    border: none;
+    border-radius: 0.375rem;
+    cursor: pointer;
+    transition: background-color 0.2s;
+  }
+
+  .error-container button:hover {
+    background-color: #2563eb;
+  }
+
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+
+  @media (max-width: 768px) {
+    .media-carousel {
+      max-width: 100%;
+    }
+
+    .carousel-control {
+      width: 32px;
+      height: 32px;
+    }
+  }
+
+  @media (prefers-color-scheme: dark) {
+    .blog-container {
+      background-color: #1a1a1a;
+    }
+
+    .carousel-container {
+      background-color: #2d2d2d;
+    }
+
+    .carousel-image {
+      background-color: #2d2d2d;
+    }
+
+    .carousel-control {
+      background-color: rgba(255, 255, 255, 0.15);
+      color: #ffffff;
+    }
+
+    .carousel-control:hover {
+      background-color: rgba(255, 255, 255, 0.25);
+    }
+  }
+</style> 

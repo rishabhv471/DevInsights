@@ -1,0 +1,66 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --header-height: 64px;
+  }
+
+  body {
+    @apply antialiased text-gray-800 dark:text-gray-200;
+  }
+
+  /* Dark mode styles */
+  .dark body {
+    @apply bg-gray-900;
+  }
+}
+
+@layer components {
+  .container {
+    @apply px-4 mx-auto max-w-7xl;
+  }
+
+  /* Form elements */
+  .form-input {
+    @apply w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-lg 
+           focus:outline-none focus:ring-2 focus:ring-primary-500 
+           bg-white dark:bg-gray-800 text-gray-900 dark:text-white;
+  }
+
+  .btn {
+    @apply px-4 py-2 rounded-lg font-medium transition-colors;
+  }
+
+  .btn-primary {
+    @apply bg-primary-600 text-white hover:bg-primary-700 
+           dark:bg-primary-500 dark:hover:bg-primary-600;
+  }
+
+  .btn-secondary {
+    @apply bg-gray-200 text-gray-800 hover:bg-gray-300 
+           dark:bg-gray-700 dark:text-gray-200 dark:hover:bg-gray-600;
+  }
+
+  /* Blog styles */
+  .blog-content h1 {
+    @apply text-3xl font-bold mb-4 text-gray-900 dark:text-white;
+  }
+
+  .blog-content h2 {
+    @apply text-2xl font-bold mb-3 text-gray-900 dark:text-white;
+  }
+
+  .blog-content p {
+    @apply mb-4 text-gray-800 dark:text-gray-200 leading-relaxed;
+  }
+
+  .blog-content ul {
+    @apply list-disc list-inside mb-4 text-gray-800 dark:text-gray-200;
+  }
+
+  .blog-content a {
+    @apply text-primary-600 dark:text-primary-400 hover:text-primary-700 dark:hover:text-primary-300;
+  }
+} 

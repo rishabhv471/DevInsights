@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="800" height="700" viewBox="0 0 800 700" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="800" height="700" fill="#f8fafc" rx="10" ry="10"/>
+  
+  <!-- Title -->
+  <text x="400" y="50" font-family="Arial, sans-serif" font-size="24" font-weight="bold" text-anchor="middle" fill="#1e293b">DevInsights Project Architecture</text>
+  
+  <!-- Main Container -->
+  <rect x="50" y="80" width="700" height="580" fill="#ffffff" stroke="#e2e8f0" stroke-width="2" rx="8" ry="8"/>
+  
+  <!-- Angular App Container -->
+  <rect x="80" y="120" width="640" height="400" fill="#f1f5f9" stroke="#cbd5e1" stroke-width="2" rx="6" ry="6"/>
+  <text x="400" y="145" font-family="Arial, sans-serif" font-size="18" font-weight="bold" text-anchor="middle" fill="#334155">Angular Application</text>
+  
+  <!-- Components Section -->
+  <rect x="100" y="170" width="280" height="320" fill="#ffffff" stroke="#cbd5e1" stroke-width="2" rx="6" ry="6"/>
+  <text x="240" y="195" font-family="Arial, sans-serif" font-size="16" font-weight="bold" text-anchor="middle" fill="#475569">Components</text>
+  
+  <!-- List of Components -->
+  <g font-family="Arial, sans-serif" font-size="14" fill="#64748b">
+    <!-- Component Icons -->
+    <circle cx="120" cy="230" r="10" fill="#3b82f6"/>
+    <circle cx="120" cy="270" r="10" fill="#8b5cf6"/>
+    <circle cx="120" cy="310" r="10" fill="#ec4899"/>
+    <circle cx="120" cy="350" r="10" fill="#f97316"/>
+    <circle cx="120" cy="390" r="10" fill="#10b981"/>
+    <circle cx="120" cy="430" r="10" fill="#f59e0b"/>
+    
+    <!-- Component Names -->
+    <text x="140" y="235">Header Component</text>
+    <text x="140" y="275">Footer Component</text>
+    <text x="140" y="315">Blog Content Component</text>
+    <text x="140" y="355">Image Carousel Component</text>
+    <text x="140" y="395">Theme Toggle Component</text>
+    <text x="140" y="435">About Component</text>
+  </g>
+  
+  <!-- Pages Section -->
+  <rect x="420" y="170" width="280" height="320" fill="#ffffff" stroke="#cbd5e1" stroke-width="2" rx="6" ry="6"/>
+  <text x="560" y="195" font-family="Arial, sans-serif" font-size="16" font-weight="bold" text-anchor="middle" fill="#475569">Pages</text>
+  
+  <!-- List of Pages -->
+  <g font-family="Arial, sans-serif" font-size="14" fill="#64748b">
+    <!-- Page Icons -->
+    <rect x="440" y="220" width="20" height="20" rx="3" ry="3" fill="#3b82f6"/>
+    <rect x="440" y="260" width="20" height="20" rx="3" ry="3" fill="#8b5cf6"/>
+    <rect x="440" y="300" width="20" height="20" rx="3" ry="3" fill="#ec4899"/>
+    <rect x="440" y="340" width="20" height="20" rx="3" ry="3" fill="#f97316"/>
+    <rect x="440" y="380" width="20" height="20" rx="3" ry="3" fill="#10b981"/>
+    <rect x="440" y="420" width="20" height="20" rx="3" ry="3" fill="#f59e0b"/>
+    
+    <!-- Page Names -->
+    <text x="470" y="235">Home Page</text>
+    <text x="470" y="275">Blog Page</text>
+    <text x="470" y="315">Blog Detail Page</text>
+    <text x="470" y="355">Product Detail Page</text>
+    <text x="470" y="395">Admin Page</text>
+    <text x="470" y="435">About Page</text>
+  </g>
+  
+  <!-- Connections -->
+  <g stroke="#94a3b8" stroke-width="2" stroke-dasharray="5,5">
+    <!-- Component to Page Connections -->
+    <path d="M 380 230 L 440 230" />
+    <path d="M 380 310 L 440 300" />
+    <path d="M 380 350 L 440 340" />
+    <path d="M 380 430 L 440 420" />
+  </g>
+  
+  <!-- External Services Section -->
+  <rect x="100" y="540" width="600" height="100" fill="#ffffff" stroke="#cbd5e1" stroke-width="2" rx="6" ry="6"/>
+  <text x="400" y="565" font-family="Arial, sans-serif" font-size="16" font-weight="bold" text-anchor="middle" fill="#475569">External Services</text>
+  
+  <!-- Mistral AI -->
+  <rect x="130" y="580" width="240" height="40" rx="6" ry="6" fill="#dbeafe" stroke="#93c5fd" stroke-width="1"/>
+  <text x="250" y="605" font-family="Arial, sans-serif" font-size="14" font-weight="bold" text-anchor="middle" fill="#1e40af">Mistral AI API</text>
+  
+  <!-- Product Hunt API -->
+  <rect x="430" y="580" width="240" height="40" rx="6" ry="6" fill="#fef3c7" stroke="#fcd34d" stroke-width="1"/>
+  <text x="550" y="605" font-family="Arial, sans-serif" font-size="14" font-weight="bold" text-anchor="middle" fill="#92400e">Product Hunt API</text>
+  
+  <!-- API Connections -->
+  <g stroke="#94a3b8" stroke-width="2">
+    <path d="M 250 580 L 250 520 L 400 520 L 400 490" stroke-dasharray="5,5"/>
+    <text x="260" y="540" font-family="Arial, sans-serif" font-size="12" fill="#475569">Content Generation</text>
+    
+    <path d="M 550 580 L 550 520 L 400 520 L 400 490" stroke-dasharray="5,5"/>
+    <text x="560" y="540" font-family="Arial, sans-serif" font-size="12" fill="#475569">Product Data</text>
+  </g>
+  
+  <!-- Features Highlights -->
+  <g font-family="Arial, sans-serif" font-size="12" fill="#475569">
+    <text x="100" y="650">• Responsive Design</text>
+    <text x="250" y="650">• Dark/Light Theme</text>
+    <text x="400" y="650">• Markdown Support</text>
+    <text x="550" y="650">• Image Carousel</text>
+    <text x="680" y="650">• Contact Form</text>
+  </g>
+  
+  <!-- Angular Logo -->
+  <g transform="translate(730, 100) scale(0.4)">
+    <path d="M 125,30 L 31.9,63.2 46.1,186.3 125,230 203.9,186.3 218.1,63.2 z" fill="#dd0031"/>
+    <path d="M 125,30 L 125,52.2 125,52.1 125,153.4 125,153.4 125,230 125,230 203.9,186.3 218.1,63.2 z" fill="#c3002f"/>
+    <path d="M 125,52.1 L 66.8,182.6 h 21.7 l 11.7,-29.2 h 49.4 l 11.7,29.2 h 21.7 L 125,52.1 z M 142,135.4 H 108 L 125,94.5 z" fill="#ffffff"/>
+  </g>
+</svg> 
